@@ -2,7 +2,7 @@
  *  Copyright (c) Peter Bjorklund. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-#include "clog/clog.h"
+#include <clog/clog.h>
 #include <flood/out_stream.h>
 #include <ordered-datagram/out_logic.h>
 #include <ordered-datagram/serialize.h>
@@ -22,8 +22,7 @@ void orderedDatagramOutLogicInit(OrderedDatagramOutLogic* self)
 int orderedDatagramOutLogicPrepare(OrderedDatagramOutLogic* self, FldOutStream* outStream)
 {
     int result = orderedDatagramIdWrite(outStream, self->sequenceToSend);
-    if (result < 0)
-    {
+    if (result < 0) {
         return result;
     }
 
@@ -44,4 +43,3 @@ void orderedDatagramOutLogicCommit(OrderedDatagramOutLogic* self)
     self->sequenceToSend++;
     self->isAllowedToCommit = false;
 }
-
