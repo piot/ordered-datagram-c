@@ -13,9 +13,8 @@ struct FldOutStream;
 typedef struct OrderedDatagramOutLogic
 {
     OrderedDatagramId sequenceToSend;
-    int debugPrepareCount;
+    bool isAllowedToCommit;
 } OrderedDatagramOutLogic;
-
 
 void orderedDatagramOutLogicInit(OrderedDatagramOutLogic* self);
 int orderedDatagramOutLogicPrepare(OrderedDatagramOutLogic* self, struct FldOutStream* outStream);

@@ -16,7 +16,6 @@ typedef struct OrderedDatagramInLogic
     OrderedDatagramId lastReceivedSequence;
 } OrderedDatagramInLogic;
 
-
 void orderedDatagramInLogicInit(OrderedDatagramInLogic* self);
 int orderedDatagramInLogicReceive(OrderedDatagramInLogic* self, struct FldInStream* inStream);
 

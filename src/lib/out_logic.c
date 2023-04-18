@@ -12,7 +12,7 @@
 void orderedDatagramOutLogicInit(OrderedDatagramOutLogic* self)
 {
     self->sequenceToSend = 0;
-    self->debugPrepareCount = 0;
+    self->isAllowedToCommit = false;
 }
 
 /// Write the current datagramId to the stream
@@ -27,9 +27,9 @@ int orderedDatagramOutLogicPrepare(OrderedDatagramOutLogic* self, FldOutStream* 
         return result;
     }
 
-    self->debugPrepareCount++;
+    self->isAllowedToCommit = true;
 #if 0
-    CLOG_VERBOSE("ordered: wrote sequence %04X count:%d", self->sequenceToSend, self->debugPrepareCount);
+    CLOG_VERBOSE("ordered: wrote sequence %04X", self->sequenceToSend);
 #endif
     return 0;
 }
@@ -38,10 +38,10 @@ int orderedDatagramOutLogicPrepare(OrderedDatagramOutLogic* self, FldOutStream* 
 /// @param self
 void orderedDatagramOutLogicCommit(OrderedDatagramOutLogic* self)
 {
-    if (self->debugPrepareCount == 0) {
-        CLOG_ERROR("commit is not allowed")
+    if (!self->isAllowedToCommit) {
+        CLOG_ERROR("orderedDatagramOutLogicCommit: commit is not allowed")
     }
     self->sequenceToSend++;
-    self->debugPrepareCount = 0;
+    self->isAllowedToCommit = false;
 }
 

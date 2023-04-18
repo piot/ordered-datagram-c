@@ -4,31 +4,24 @@
  *--------------------------------------------------------------------------------------------*/
 #include <ordered-datagram/ordered_datagram.h>
 
-#define ORDERED_DATAGRAM_ID_MAX (65536)
-#define ORDERED_DATAGRAM_ID_ACCEPTABLE_DIFF (625) // 10 datagrams * tickFrequency (62.5) * 1 second latency
-
-int orderedDatagramIdDiff(OrderedDatagramId encountered, OrderedDatagramId expected)
+int orderedDatagramIdDiff(OrderedDatagramId encountered, OrderedDatagramId lastReceived)
 {
     int diff;
 
-    if (encountered < expected) {
-        diff = encountered + ORDERED_DATAGRAM_ID_MAX - expected;
+    if (encountered < lastReceived) {
+        const int orderedDatagramIdMax = 0x10000;
+        diff = encountered + orderedDatagramIdMax - lastReceived;
     } else {
-        diff = encountered - expected;
+        diff = encountered - lastReceived;
     }
 
     return diff;
 }
 
-bool orderedDatagramIdIsValidSuccessor(OrderedDatagramId encountered, OrderedDatagramId expected)
+bool orderedDatagramIdIsValidSuccessor(OrderedDatagramId encountered, OrderedDatagramId lastReceived)
 {
-    int diff;
+    int diff = orderedDatagramIdDiff(encountered, lastReceived);
 
-    if (encountered < expected) {
-        diff = encountered + ORDERED_DATAGRAM_ID_MAX - expected;
-    } else {
-        diff = encountered - expected;
-    }
-
-    return diff > 0 && diff <= ORDERED_DATAGRAM_ID_ACCEPTABLE_DIFF;
+    const int orderedDatagramIdAcceptableDiff = 625; // 10 datagrams / tick * tickFrequency (62.5) * 1 second latency
+    return diff > 0 && diff <= orderedDatagramIdAcceptableDiff;
 }
