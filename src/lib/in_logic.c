@@ -7,7 +7,7 @@
 #include <ordered-datagram/serialize.h>
 
 /// Initialize in logic
-/// @param self
+/// @param self in logic
 void orderedDatagramInLogicInit(OrderedDatagramInLogic* self)
 {
     self->hasReceivedInitialDatagram = 0;
@@ -15,8 +15,8 @@ void orderedDatagramInLogicInit(OrderedDatagramInLogic* self)
 }
 
 /// Reads a OrderedDatagramId from inStream and checks if the sequence is valid
-/// @param self
-/// @param inStream
+/// @param self in logic
+/// @param inStream stream to read header from
 /// @return negative on error. zero if it wasn't a valid package, otherwise the diff against the last one.
 int orderedDatagramInLogicReceive(OrderedDatagramInLogic* self, FldInStream* inStream)
 {

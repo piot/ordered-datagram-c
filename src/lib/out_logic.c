@@ -8,7 +8,7 @@
 #include <ordered-datagram/serialize.h>
 
 /// Initialize the out logic
-/// @param self
+/// @param self out logic
 void orderedDatagramOutLogicInit(OrderedDatagramOutLogic* self)
 {
     self->sequenceToSend = 0;
@@ -16,8 +16,8 @@ void orderedDatagramOutLogicInit(OrderedDatagramOutLogic* self)
 }
 
 /// Write the current datagramId to the stream
-/// @param self
-/// @param outStream
+/// @param self out logic
+/// @param outStream stream to write header to
 /// @return negative value on error
 int orderedDatagramOutLogicPrepare(OrderedDatagramOutLogic* self, FldOutStream* outStream)
 {
@@ -34,7 +34,7 @@ int orderedDatagramOutLogicPrepare(OrderedDatagramOutLogic* self, FldOutStream* 
 }
 
 /// Call when it is sure that the packet will be sent. Increases sequenceId.
-/// @param self
+/// @param self out logic
 void orderedDatagramOutLogicCommit(OrderedDatagramOutLogic* self)
 {
     if (!self->isAllowedToCommit) {
